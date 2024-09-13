@@ -67,7 +67,7 @@ function Centered-Text {
 Write-Host
 Write-Host
 
-    Start-Sleep -Seconds 1
+Start-Sleep -Seconds 1
 
 # Welcome message
 Centered-Text -Text "Kali Linux Tools and Kali-Win-KeX Installer: Script 02"
@@ -81,13 +81,12 @@ if ($kaliInstalled -eq "kali-linux") {
     Write-Host "-[*] Approx 11.3GiB disk space will be taken up by installed Kali packages on your system."
     Write-Host "-[*] Enter the Kali Linux PASSWORD used earlier in setup process...."
 
-
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds 2
 	Write-Host
 	Write-Host
 	$selection = Read-Host "Install? [(Y)es/(N)o def=N]"
 
-    if ($selection -eq 'y' -or $selection -eq 'Y'){
+    if ($selection -eq 'y' -or $selection -eq 'Y') {
     	# Run the update and package installation command inside Kali Linux
 	Centered-Text -Text "Installing the tools...."
 
@@ -96,19 +95,30 @@ if ($kaliInstalled -eq "kali-linux") {
   	wsl -d kali-linux -- bash -c $Command
 
   	# Check if the command ran successfully
-  	if ($LASTEXITCODE -eq 0) {
-  	   Centered-Text -Text "Kali Linux updated and packages installed successfully."
-	   Write-Host "© 2024 @adithyasunil04"
+  	    if ($LASTEXITCODE -eq 0) {
+  	        Centered-Text -Text "Kali Linux updated and packages installed successfully."
+            Write-Host "Please enter Kali Linux PASSWORD again. Need to enable Systemd..."
+            Start-Sleep -Seconds 1
 
+            # Create the /etc/wsl.conf file to enable systemd
+            $systemdConfig = "[boot]`nsystemd=true"
+            $createFileCommand = "echo '$systemdConfig' | sudo tee /etc/wsl.conf > /dev/null"
+            wsl -d kali-linux -- bash -c $createFileCommand
+            Centered-Text -Text "Systemd enabled in Kali Linux."
+            Write-Host "© 2024 @adithyasunil04"
+            exit
+          
 
- 	} else {
-	   Write-Host
- 	   Centered-Text -Text "Failed to update and install packages in Kali Linux."
-	}
+  	    } else {
+	        Write-Host
+ 	        Centered-Text -Text "Failed to update and install packages in Kali Linux."
+	    }
+
     } else {
-	Centered-Text -Text "Kali Linux Package install Aborted."
+	    Centered-Text -Text "Kali Linux Package install Aborted."
     }
 
 } else {
     Centered-Text -Text "Kali Linux is not installed on WSL. Please install it first."
 }
+

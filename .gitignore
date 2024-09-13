@@ -1,0 +1,3 @@
+# ignore all test scripts
+test_02.ps1
+*test*
