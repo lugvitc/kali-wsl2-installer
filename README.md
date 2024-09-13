@@ -70,17 +70,17 @@ RESTART WINDOWS after running script 00. then run...
 .\02_kali_tools_kex_installer.ps1
 ```
 > NOTE: While running script 02, during installation of tools in Kali, a terminal based dialog may pop up asking you to agree to software EULA or for setting up kali tools like kismet.
-> Press tab to navigate options, select the default/recommended options and proceed.
+> Press tab and arrow keys to navigate options, select the default/recommended options and proceed.
 
 # After installing...
 Open Kali Linux, and in the terminal run ANY one of the following commands
 
 ```
-kex --win -s    # window mode
+kex --win -s    # window mode using tigerVNC
 ``` 
 
 ```
-kex --esm --ip -s  # window mode with enhanced support
+kex --esm --ip -s  # window mode with enhanced support (using Windows RDP)
 ```
 A windows firewall pop up will appear, give all permissions and you should be able to connect to Kali Desktop via RemoteVNC.
 
